@@ -1,3 +1,5 @@
+# priv = privilege
+
 # Security
 
 - The data stored in A DBMS is often stored in a company and is regarded as a corporate asset
@@ -230,3 +232,16 @@ Three main principles lie behind the Aries Recovery Algorithm:-
 - The goal of this phase to undo the actions of all the transactions after the time of the crash
 - That is too effectively abort them, this set of transactions is identified in the transaction table constructed by the Anaylze's phase
 
+### Linear Recovery
+
+- Linear Recovery is based on periodically making copy of a database because copying a large database object such as a file can take a long time and the DBMS must be allowed to continue with its operations in the meantime, creating a copy is handled in a manner similar to taking a fuzzy checkpoint 
+
+- In a DBMS media recovery is the proccess of recovering a database after it has been physically damaged or a database file has been lost
+
+- This can be due to a hardware failure such as a disk hard crash or if all copies of a database control file are permanently lost
+
+- Linear recovery can also be used to restore modifications that were lost when a table space went offline
+
+- Media recovery is necessary for fixing database integrity it applies changes to data files that have been restored from backup not to online data files leftover after a crash 
+
+- To avoid media recovery it is recommed to use multiplex control files with each database, with each copy stored on a different physical disk 
