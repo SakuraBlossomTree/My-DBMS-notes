@@ -221,8 +221,8 @@ Three main principles lie behind the Aries Recovery Algorithm:-
 - The action must be redone unless one of the following the conditions holds
 
 1. The affected page is not in the dirty page table:- The first update to the page may not have been returned to the disk
-2. The affected page is the dirty page table but the LSL for the entry is greater than the LSN of the log record being checked:- [This mam is a fucking joke]
-3. The page LSN is greater than or equal to the LSN of the log record being checked:- [At this fucking point I didn't care for shit]
+2. The affected page is the dirty page table but the LSL for the entry is greater than the LSN of the log record being checked:- [I don't know what is going on]
+3. The page LSN is greater than or equal to the LSN of the log record being checked:- [At this point I didn't care for shit]
 
 ### Undo phase
 
