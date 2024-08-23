@@ -1,3 +1,5 @@
+### Log Based Conquency Control
+
 - In log based conquency control conflicting actions of differnt transcations in which the logs are opting and the log protocol extends this ordering on actions to transcations there by ensuring serializibility 
 
 - In optimistic control a time stamp ordering is imposed on transcations and validation checks that all conflicting actions occured in the same order timestamps can also be used in another way i.e each transcation can be assigned a timestamp at startup and we can ensure at execution time if action ai of transcation Ti conflicts with action aj of transcation Tj, ai occurs before aj if TS(Ti) < TS(Tj) if an action violates then the transcation is aborted and restarted

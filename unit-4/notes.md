@@ -209,7 +209,7 @@ This Schedule is shown in the below figure
 
 ## Deadlocks
 
-- Transaction T1 sets an Exclusive on object A, T2 sets an Exclusive lock on B T1 requests and Exclusive lock on B and is queued and T2 requests an Exclusive lock on A and is queued
-- Now T1 is waiting is for T2 to release it's lock and T2 is waiting for T1 to release it's lock such a cycle of transactions waiting for locks to be released is called a Deadlock
+- Transaction T<sub>1</sub> sets an Exclusive on object A, T<sub>2</sub> sets an Exclusive lock on B T<sub>1</sub> requests and Exclusive lock on B and is queued and T<sub>2</sub> requests an Exclusive lock on A and is queued
+- Now T<sub>1</sub> is waiting is for T<sub>2</sub> to release it's lock and T<sub>2</sub> is waiting for T<sub>1</sub> to release it's lock such a cycle of transactions waiting for locks to be released is called a Deadlock
 - Clearly this transactions will make not longer progress worst , they hold locks that maybe required other transactions
 - If a transaction has been waiting to long of a lock we can assume that it is in a Deadlock cycle and abort it 
