@@ -94,3 +94,122 @@ The Schedule shown in the figure represents a interleaved execution of two trans
 
 Even though the action of T<sub>1</sub> and T<sub>2</sub> the result of the Schedule is equivalent T<sub>1</sub> running T<sub>2</sub>
 
+# Anomalies due to interleave execution
+
+- Two actions on the same data object conflict if at least one of them is a write.
+
+- The three Anomalies situation can be described in the terms of when the actions of two transactions T<sub>1</sub> and T<sub>2</sub> conflict with each other, in a write read conflict(WR Conflict) T <sub> 2</sub> previously returned by T<sub>1</sub>
+
+- We defined WR and WW similarly 
+
+## WR Conflicts i.e reading uncommitted data
+
+- This occurs when one transaction updates an item but due to unconditional events that transaction fails but before the transaction performs rollback some other transaction reads the updated value thus creates an inconsistency in the database
+
+- Dirty read problem occurs under the scenario WR conflict between the transactions in the database 
+
+- The lost update problem can be illustrated with the below scenario between two transactions T<sub>1</sub> and T<sub>2</sub>
+
+| T<sub>1</sub> | T<sub>2</sub> |
+| -------------- | --------------- |
+| R(A) | |
+| W(A) |  |
+|  | R(A) |
+|  | W(A) |
+|  | R(B) |
+|  | W(B) |
+|  | commit |
+| R(B)  | |
+| W(B) |  |
+| commit |  |
+
+**The teacher doesn't even want to stop when I am writing stuff what an amazing teacher**
+
+## Read Write Conflicts
+
+- Read Write Conflict also known as is an computational Anomaly associated with interleave of transactions
+
+- A Read Write Conflict specifically occurs when a transaction requests to read an entity for which unclose transaction has already made a write request
+
+In this example T<sub>1</sub> has read the original value of A and is waiting for T<sub>2</sub>, T<sub>2</sub> also reads the original value of A, overwrites A and commits
+
+| T<sub>1</sub> | T<sub>2</sub> |
+| -------------- | --------------- |
+| R(A) | |
+|  | R(A) |
+|  | W(A) |
+|  | commit |
+| R(A)  | |
+| W(A) |  |
+| commit |  |
+
+## Write Write Conflicts
+
+- Write Write Conflict is a computational anomaly associated with interleave execution of transactions
+
+- specifically a Write Write Conflict occurs when transaction requests to write an entity for which an enclose transaction has already made a write request
+
+Given a Schedule S
+
+| T<sub>1</sub> | T<sub>2</sub> |
+| -------------- | --------------- |
+| W(A) | |
+|  | W(B) |
+| W(B) |  |
+| commit | W(A) |
+|   |  commit |  
+
+## Schedules Invloing 
+
+- A Serializability Schedule over a Set S of a transactions is Schedule whose effect on any consistent database instance is guaranteed to be identical to that of some complete serial Schedule over a Set of committed transactions in S 
+
+- This defination of Serializability relies of aborted transactions been under completely which may be possible in some situations
+
+For Example suppose 
+
+1. A account transfer program T<sub>1</sub> deducts 100 dollars from account A then 
+2. An Interest Depoist program T<sub>2</sub> reads the current values of accounts A and B and adds 6% interest to each then commits and then 
+3. T<sub>1</sub> is aborted
+
+This Schedule is shown in the below figure
+
+| T<sub>1</sub> | T<sub>2</sub> |
+| -------------- | --------------- |
+| R(A) | |
+| W(A) |  |
+|  | R(A) |
+|  | W(A) |
+|  | R(B) |
+|  | W(B) |
+|  | commit |
+| abort |  |
+
+- Now T<sub>2</sub> has read a value for A that should never had been there
+
+- If T<sub>2</sub> has not yet committed we could deal with this situation by cascading the abort of T<sub>1</sub> and also aborting T<sub>2</sub> this process recursiolvy aborts any transaction that read data written by T<sub>2</sub>
+
+## Lock based Conquerency Control
+
+- A DBMS must be able to ensure that only Serializabile, revoverable Schedules are allowed and that no actions of committed are lost while undergoing abort transactions 
+
+- A DBMS typically uses a locking protocol to achive this
+
+- A Lock is a small book keeping object associated with a database object
+
+- A Locking protocol is a set of rules to be followed by each transaction to ensure that even though actions of several transactions might be interleaved the net effect is identical to executing all transactions in some serial order 
+
+- Different Locking protocols use different type of locks such as Shared locks or Exclusive locks or Strict 2PL protocol or Deadlocks 
+
+## Strict 2PL protocol
+
+- Strict 2 Phase Locking also called as Strict 2PL Locking protocol is the most widely used locking protocol has two rules
+
+1. If a transaction T wants to read an object if first requests a shared lock on the object, a transaction that requests a lock is suspended until the DBMS is able to grant the requested lock
+2. All locks held by a transaction is completed are released when the transaction is completed, requests to acquire and relase locks can be automatically inserted into transactions by the DBMS users need not worry about these details
+
+## Deadlocks
+
+- Transaction T1 sets an Exclusive on object A, T2 sets an Exclusive lock on B T1 requests and Exclusive lock on B and is queued and T2 requests an Exclusive lock on A and is queued
+- Now T1 is waiting is for T2 to release it's lock and T2 is waiting for T1 to release it's lock such a cycle of transactions waiting for locks to be released is called a Deadlock
+- Clearly this transactions will make not longer progress worst , they hold locks that maybe required other transactions
+- If a transaction has been waiting to long of a lock we can assume that it is in a Deadlock cycle and abort it 
