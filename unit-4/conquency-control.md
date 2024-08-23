@@ -22,3 +22,15 @@
 3. Otherwise the reuqested lock cannot be immedietaly granted is added to the queue for this object, the transcation requesting the lock is suspended
 
 - When a transcation aborts it relases all it's locks
+
+## Specialised locking techniques
+
+- If the collection of database objects is not fixed but can grow and strength to the insertion and deletion of objects we must be with a sutle complication known as the phantom problem 
+
+- Although treating a database as an independent collection of objects is adequate for a discussion of serialsedbility and recoverablity much better performance can sometimes be obtainted using protocols that reconginised and exploit relationships between objects
+
+### Dynamic Databased and the phantom problem
+
+- Consider the following the following transcation T<sub>1</sub> scans the sailors relation to the find the oldest sailor for each of the rating levels 1 and 2 
+
+- First T<sub>1</sub> identifies and locks all pages and containing sailors with rating one and then finds the age of the oldest sailor which is say 71 next transcation T<sub>2</sub> inserts a new sailor with rating 1 and age 96
